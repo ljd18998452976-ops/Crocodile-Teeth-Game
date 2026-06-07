@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Crocodile Teeth Battle｜加牙修正版</title>
+<style>
+:root{--ink:#203047;--muted:#6d7b8d;--line:#cbd8e3;--blue:#2458e6;--purple:#8f27cf;--green:#34b865;--red:#ef5350;--gold:#ffc857;--shadow:0 5px 0 rgba(139,154,174,.45)}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,"Microsoft YaHei",sans-serif;color:var(--ink);background:linear-gradient(#f7fbff,#e8eff5)}button,input,select{font:inherit}button{border:0;cursor:pointer;transition:.12s}button:hover{filter:brightness(1.03);transform:translateY(-1px)}button:active{transform:translateY(1px)}
+.app{max-width:1500px;margin:0 auto;padding:18px}.header{display:flex;justify-content:space-between;align-items:center;gap:12px;background:#fff;border:2px solid var(--line);border-radius:22px;padding:14px 18px;margin-bottom:14px;box-shadow:0 6px 18px #21304714}.title{display:flex;align-items:center;gap:12px}.logo{width:58px;height:58px;border-radius:18px;display:grid;place-items:center;background:linear-gradient(135deg,#44c56d,#b6f06a);font-size:34px}h1{font-size:25px;margin:0}.sub{font-size:13px;color:var(--muted);margin-top:4px}.topBtns{display:flex;gap:9px;flex-wrap:wrap;justify-content:flex-end}
+.btn{border-radius:16px;padding:11px 16px;font-weight:900;background:#fff;border:2px solid var(--line);color:var(--ink);box-shadow:0 4px 0 #8b9aae59}.btn.main{background:linear-gradient(135deg,var(--green),#8bdd5c);color:#fff;border-color:#1d9a51}.btn.red{background:#fff0f0;color:#c64040;border-color:#ffcaca}.btn.blue{background:#edf5ff;color:#1e63c7;border-color:#c9def8}.btn.gold{background:#fff7dc;color:#8a5a11;border-color:#f1dda1}
+.selectPanel{background:#eef2f7;border:2px solid var(--line);border-radius:24px;padding:16px;margin-bottom:14px}.selectedLine{font-size:21px;font-weight:900;color:#1d52e2;margin:0 0 12px}.nameGrid{display:grid;grid-template-columns:repeat(7,1fr);gap:14px}.nameBtn{min-height:62px;border-radius:20px;background:#fff;color:#213047;border:2px solid #c8d5e3;box-shadow:var(--shadow);font-size:19px;font-weight:900;padding:10px}.nameBtn.active{color:#fff;background:linear-gradient(135deg,#255be8,#8e27cf);border-color:#164bc8;box-shadow:0 5px 0 #15508f}.nameBtn.sleep{opacity:.48}
+.settings{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:14px;background:#fff;border:2px solid var(--line);border-radius:22px;padding:14px;box-shadow:0 6px 16px #21304714}.label{font-size:12px;color:var(--muted);margin:0 0 6px 3px;font-weight:800}select{width:100%;border:2px solid var(--line);border-radius:16px;padding:11px;background:#fffaf4;color:var(--ink);outline:none;font-weight:800}.quickBar{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;background:#fff;border:2px solid var(--line);border-radius:22px;padding:12px 14px;box-shadow:0 6px 16px #21304714}.tip{color:#8a5a25;background:#fff5df;border:1px solid #efd9a8;border-radius:999px;font-weight:900;font-size:13px;padding:8px 13px}
+.battle{display:none;min-height:100vh;background:linear-gradient(#f6fbf8,#e8f3ec)}.battle.show{display:block}.hide{display:none!important}.battleTop{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding:12px 16px;background:#fff;border-bottom:2px solid var(--line);box-shadow:0 6px 18px #21304717}.battleTitle{font-weight:900;font-size:23px;color:#1f8d4d}.battleBtns{display:flex;gap:8px;flex-wrap:wrap}
+.attackerBar{margin:12px 16px 10px;padding:15px 18px;border-radius:24px;border:3px solid #1d9a51;background:linear-gradient(135deg,#26a957,#8bdd5c);color:#fff;display:flex;justify-content:space-between;align-items:center;gap:14px;box-shadow:0 8px 0 #17783f}.attackerText{font-size:34px;font-weight:1000}.attackerSub{font-size:14px;opacity:.94;margin-top:4px;font-weight:800}.skipBtn{background:#fff;color:#1f8d4d;border-radius:18px;padding:13px 20px;font-size:18px;font-weight:1000;box-shadow:0 5px 0 #0002}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:0 16px 10px}.stat{background:#fff;border:2px solid var(--line);border-radius:18px;padding:8px;text-align:center;box-shadow:0 5px 12px #21304714}.stat b{font-size:25px;display:block}.stat span{font-size:12px;color:var(--muted);font-weight:800}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:14px;padding:0 16px 18px}.grid.few{grid-template-columns:repeat(auto-fit,minmax(440px,1fr))}.grid.one{grid-template-columns:minmax(520px,900px);justify-content:center}.card{border:2px solid var(--line);border-radius:24px;overflow:hidden;background:#fff;box-shadow:0 7px 0 #8b9aae59;position:relative}.card.sleeping{opacity:.63;filter:saturate(.65)}.card.attacker{outline:5px solid #37b96a47;transform:scale(1.015);z-index:2;box-shadow:0 0 0 7px #37b96a1f,0 9px 0 #1f8d4d73}
+.cardName{padding:12px 14px;font-size:22px;font-weight:900;display:flex;justify-content:space-between;gap:8px;background:linear-gradient(#fff,#f7fff9)}.badge{font-size:14px;border-radius:999px;padding:6px 10px;background:#effff3;border:1px solid #ccefd5;color:#21733d;white-space:nowrap}
+.crocBox{height:270px;margin:0 12px 10px;border-radius:22px;position:relative;overflow:hidden;background:linear-gradient(#dff7ff,#fff1cc)}.croc{position:absolute;left:50%;top:28px;transform:translateX(-50%);width:285px;height:190px}.head{position:absolute;left:0;top:38px;width:285px;height:126px;background:var(--c);border:7px solid #21304721;border-radius:95px 95px 70px 70px;box-shadow:inset 0 -15px 0 #0001,0 12px 24px #21304721}.snout{position:absolute;left:28px;top:86px;width:230px;height:82px;background:#ffffff2e;border-radius:80px 80px 48px 48px}.eye{position:absolute;top:18px;width:43px;height:43px;background:#fff;border-radius:50%;z-index:3}.eye.l{left:76px}.eye.r{right:76px}.eye:after{content:"";position:absolute;left:14px;top:14px;width:15px;height:15px;background:#203047;border-radius:50%}.nose{position:absolute;top:82px;width:18px;height:13px;background:#183121;border-radius:50%;z-index:3}.nose.l{left:94px}.nose.r{right:94px}.mouth{position:absolute;left:42px;top:112px;width:201px;min-height:55px;background:#35211d;border-radius:18px 18px 42px 42px;display:flex;gap:4px;flex-wrap:wrap;justify-content:center;align-content:flex-start;padding:7px 9px;z-index:4}.tooth{width:24px;height:34px;background:#fff;border-radius:4px 4px 14px 14px;border:1px solid #0001;box-shadow:inset 0 -4px 0 #0001;cursor:pointer}.tooth:hover{transform:translateY(-3px);filter:brightness(.96)}.tooth.gone{visibility:hidden;pointer-events:none}.tooth.new{animation:popTooth .36s ease}.tooth.golden{box-shadow:inset 0 -4px 0 #0001,0 0 0 3px rgba(255,200,87,.35)}
+@keyframes popTooth{0%{transform:scale(.1) translateY(12px);opacity:0}70%{transform:scale(1.2) translateY(-3px);opacity:1}100%{transform:scale(1);opacity:1}}
+.sleepLabel{display:none;position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) rotate(-5deg);background:#203047e6;color:#fff;font-size:24px;font-weight:900;padding:10px 18px;border-radius:18px;z-index:8}.card.sleeping .sleepLabel{display:block}.pop{display:none;position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) rotate(-4deg);font-size:32px;font-weight:1000;color:#fff;padding:10px 18px;border-radius:18px;z-index:10;box-shadow:0 8px 20px #0003}.pop.show{display:block}.pop.safe{background:#1f8d4d}.pop.danger{background:#d84343}.pop.gold{background:#d69a00}.pop.added{background:#1d52e2}
+.actions{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:0 12px 12px}.smallBtn{border-radius:14px;padding:10px 4px;font-size:14px;font-weight:900;background:#fff;border:2px solid var(--line);color:var(--ink)}.smallBtn.plus{background:#effff1;color:#267b37;border-color:#cff1d2}.smallBtn.reset{background:#edf5ff;color:#1e63c7;border-color:#c9def8}
+.grid.few .crocBox{height:330px}.grid.few .croc{width:360px;height:245px;top:36px}.grid.few .head{width:360px;height:158px;border-radius:120px 120px 86px 86px}.grid.few .snout{left:38px;top:104px;width:285px;height:105px}.grid.few .eye{width:54px;height:54px;top:20px}.grid.few .eye.l{left:96px}.grid.few .eye.r{right:96px}.grid.few .eye:after{width:19px;height:19px;left:18px;top:18px}.grid.few .nose{top:103px}.grid.few .nose.l{left:120px}.grid.few .nose.r{right:120px}.grid.few .mouth{left:54px;top:139px;width:252px;min-height:70px;gap:5px;padding:9px 13px}.grid.few .tooth{width:31px;height:42px}
+.empty{padding:52px 12px;text-align:center;border:2px dashed #cbd6e3;border-radius:20px;background:#f8fbff;color:var(--muted);font-weight:900;margin:16px}.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(90px);background:#203047;color:#fff;padding:13px 18px;border-radius:999px;font-weight:900;z-index:60;box-shadow:0 10px 30px #0003;transition:.2s}.toast.show{transform:translateX(-50%) translateY(0)}
+@media(max-width:1100px){.nameGrid{grid-template-columns:repeat(5,1fr)}.settings{grid-template-columns:repeat(2,1fr)}}@media(max-width:780px){.header{flex-direction:column;align-items:flex-start}.nameGrid{grid-template-columns:repeat(2,1fr)}.settings,.stats{grid-template-columns:1fr 1fr}.grid,.grid.few,.grid.one{grid-template-columns:1fr}.attackerText{font-size:25px}}@media print{#selectScreen,.battleTop,.attackerBar,.stats,.actions,.toast{display:none!important}.battle{display:block!important;background:#fff}.grid,.grid.few,.grid.one{grid-template-columns:repeat(2,1fr);gap:10px;padding:0}.card{box-shadow:none;break-inside:avoid;border-color:#aaa}.crocBox{height:245px!important}}
+</style>
+</head>
+<body>
+<div id="selectScreen" class="app">
+  <div class="header">
+    <div class="title"><div class="logo">🐊</div><div><h1>Crocodile Teeth Battle</h1><div class="sub">普通牙打掉对方牙｜危险牙自己掉牙｜金牙自己加牙</div></div></div>
+    <div class="topBtns"><button class="btn main" onclick="startBattle()">开始PK</button><button class="btn blue" onclick="addKid()">＋ 加娃</button><button class="btn" onclick="selectAll()">全选</button><button class="btn" onclick="selectNone()">清空选择</button><button class="btn red" onclick="resetNames()">恢复默认名单</button></div>
+  </div>
+  <section class="selectPanel"><div id="selectedLine" class="selectedLine">已选择 0 人：</div><div id="nameGrid" class="nameGrid"></div></section>
+  <section class="settings">
+    <div><div class="label">每只鳄鱼牙齿数</div><select id="teethCount"><option value="8">8 颗</option><option value="10" selected>10 颗</option><option value="12">12 颗</option></select></div>
+    <div><div class="label">危险牙数量</div><select id="dangerCount"><option value="1">1 颗</option><option value="2" selected>2 颗</option><option value="3">3 颗</option></select></div>
+    <div><div class="label">金牙数量</div><select id="goldCount"><option value="0">不要金牙</option><option value="1" selected>1 颗</option><option value="2">2 颗</option></select></div>
+  </section>
+  <section class="quickBar"><div class="tip">普通牙：对方掉 1 颗｜危险牙：自己掉 1 颗｜金牙：自己补回 1 颗被点掉的牙</div><button class="btn main" onclick="startBattle()">进入PK页面</button></section>
+</div>
+<div id="battleScreen" class="battle">
+  <div class="battleTop"><div class="battleTitle">🐊 Crocodile Teeth Battle｜PK中</div><div class="battleBtns"><button class="btn gold" onclick="newRound()">重置本轮</button><button class="btn blue" onclick="window.print()">打印鳄鱼卡</button><button class="btn" onclick="backSelect()">返回选人</button></div></div>
+  <div class="attackerBar"><div><div id="attackerText" class="attackerText">轮到：-- 点牙</div><div class="attackerSub">点击对手鳄鱼的一颗牙。金牙会让自己的牙齿直接补回来。</div></div><button class="skipBtn" onclick="nextAttacker()">跳过 / 换下一个</button></div>
+  <div class="stats"><div class="stat"><b id="statSelected">0</b><span>本轮PK</span></div><div class="stat"><b id="statAlive">0</b><span>还活着</span></div><div class="stat"><b id="statSleep">0</b><span>Sleep Mode</span></div><div class="stat"><b id="statTeeth">0</b><span>剩余牙齿</span></div></div>
+  <div id="battleGrid" class="grid"></div><div id="battleEmpty" class="empty">还没有选择本轮PK的小朋友，请返回选人。</div>
+</div>
+<div id="toast" class="toast"></div>
+<script>
+const defaultNames=["Rocket","Cassie","Rachel","Bobo","Hannah","Cici","Joe","Leon","Sylvia","Gorman","Ryan","Aaron","Annie","Yuki","Linna","Helen","Ken","Charlie","Via","Eva","Zoey"];
+const colors=["#5fd57c","#6bd7f5","#ffb3c7","#bda2ff","#ffd166","#8be36f","#ff9f7a","#a0c4ff","#f4a261","#b8f2e6","#caffbf","#98f5c7"];
+let students=[],attackerIndex=0,addedToothId=null;
+function makeStudent(name,i,active=false){return{id:Math.random().toString(36).slice(2,9),name,active,color:colors[i%colors.length],teeth:[],lastPop:""}}
+function load(){try{students=JSON.parse(localStorage.getItem("crocodileTeethBattle_fixedAdd_v3")||"[]")}catch(e){students=[]}if(!students.length)students=defaultNames.map((n,i)=>makeStudent(n,i,i<8));students.forEach((s,i)=>{if(!s.color)s.color=colors[i%colors.length];if(!Array.isArray(s.teeth))s.teeth=[];if(typeof s.lastPop==="undefined")s.lastPop="";s.teeth.forEach(t=>{if(typeof t.id==="undefined")t.id=Math.random().toString(36).slice(2,9)})})}
+function save(){localStorage.setItem("crocodileTeethBattle_fixedAdd_v3",JSON.stringify(students))}
+function toast(msg){const t=document.getElementById("toast");t.textContent=msg;t.classList.add("show");clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>t.classList.remove("show"),1700)}
+function activeStudents(){return students.filter(s=>s.active)}
+function isSleeping(s){return s.teeth.length>0&&s.teeth.every(t=>t.gone)}
+function aliveStudents(){return activeStudents().filter(s=>!isSleeping(s))}
+function currentAttacker(){const pool=aliveStudents();if(!pool.length)return null;attackerIndex=((attackerIndex%pool.length)+pool.length)%pool.length;return pool[attackerIndex]}
+function addKid(){const name=prompt("输入新小朋友名字：");if(!name||!name.trim())return;const clean=name.trim();if(students.some(s=>s.name.toLowerCase()===clean.toLowerCase())){alert("这个名字已经有啦");return}students.push(makeStudent(clean,students.length,true));render()}
+function resetNames(){if(confirm("恢复默认名单会清空当前鳄鱼状态，确定吗？")){students=defaultNames.map((n,i)=>makeStudent(n,i,i<8));attackerIndex=0;render()}}
+function toggle(id){const s=students.find(x=>x.id===id);if(!s)return;s.active=!s.active;attackerIndex=0;render();if(document.getElementById("battleScreen").classList.contains("show"))renderBattle()}
+function selectAll(){students.forEach(s=>s.active=true);attackerIndex=0;render()}
+function selectNone(){students.forEach(s=>s.active=false);attackerIndex=0;render()}
+function toothObj(type){return{id:Math.random().toString(36).slice(2,9),type,gone:false}}
+function makeTeeth(){const total=+document.getElementById("teethCount").value;let danger=Math.min(+document.getElementById("dangerCount").value,total-1),gold=Math.min(+document.getElementById("goldCount").value,total-danger);let arr=[];for(let i=0;i<danger;i++)arr.push(toothObj("danger"));for(let i=0;i<gold;i++)arr.push(toothObj("gold"));while(arr.length<total)arr.push(toothObj("safe"));for(let i=arr.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]]}return arr}
+function prepareRound(force=false){activeStudents().forEach(s=>{if(force||!s.teeth.length){s.teeth=makeTeeth();s.lastPop=""}})}
+function startBattle(){if(!activeStudents().length){alert("先点选本轮参加PK的小朋友");return}prepareRound(false);document.getElementById("selectScreen").classList.add("hide");document.getElementById("battleScreen").classList.add("show");attackerIndex=0;renderBattle()}
+function backSelect(){document.getElementById("battleScreen").classList.remove("show");document.getElementById("selectScreen").classList.remove("hide");render()}
+function newRound(){if(confirm("重置本轮会重新洗危险牙和金牙，确定吗？")){prepareRound(true);attackerIndex=0;renderBattle();render()}}
+function nextAttacker(){const pool=aliveStudents();if(pool.length<=1){toast("暂时没有下一个点牙的人");return}attackerIndex=(attackerIndex+1)%pool.length;renderBattle()}
+function nextAttackerSilent(){const pool=aliveStudents();if(pool.length>1)attackerIndex=(attackerIndex+1)%pool.length}
+function removeOneOwnTooth(s){const visible=s.teeth.map((t,i)=>!t.gone?i:-1).filter(i=>i>=0);if(!visible.length)return false;const idx=visible[Math.floor(Math.random()*visible.length)];s.teeth[idx].gone=true;return true}
+function addOneOwnTooth(s){
+  const goneIndex=s.teeth.findIndex(t=>t.gone);
+  if(goneIndex>=0){
+    s.teeth[goneIndex].gone=false;
+    s.teeth[goneIndex].type="safe";
+    addedToothId=s.teeth[goneIndex].id;
+    return "restore";
+  }
+  const t=toothObj("safe");
+  s.teeth.push(t);
+  addedToothId=t.id;
+  return "new";
+}
+function clickTooth(targetId,idx){
+  const target=students.find(s=>s.id===targetId),attacker=currentAttacker();if(!target||!attacker)return;
+  if(target.id===attacker.id){toast("不能点自己的鳄鱼牙齿");return}
+  if(isSleeping(target)){toast(target.name+" 的鳄鱼已经 Sleep Mode");return}
+  const tooth=target.teeth[idx];if(!tooth||tooth.gone)return;
+  tooth.gone=true;target.lastPop=tooth.type;attacker.lastPop="";
+  if(tooth.type==="safe"){toast("SAFE! "+target.name+" 掉 1 颗牙");nextAttackerSilent()}
+  else if(tooth.type==="danger"){const ok=removeOneOwnTooth(attacker);toast("BITE! "+attacker.name+(ok?" 自己掉 1 颗牙":" 已经没牙了"));nextAttackerSilent()}
+  else{addOneOwnTooth(attacker);attacker.lastPop="added";toast("GOLD! "+attacker.name+" 自己补回 1 颗牙，可以继续点")}
+  setTimeout(()=>{target.lastPop="";if(attacker)attacker.lastPop="";addedToothId=null;renderBattle();render()},950);
+  renderBattle();render()
+}
+function fix(id){const s=students.find(x=>x.id===id);if(!s)return;addOneOwnTooth(s);s.lastPop="added";setTimeout(()=>{s.lastPop="";addedToothId=null;renderBattle();render()},900);renderBattle();render()}
+function resetCroc(id){const s=students.find(x=>x.id===id);if(!s)return;s.teeth=makeTeeth();s.lastPop="";toast(s.name+" 的鳄鱼已重置");renderBattle();render()}
+function render(){const active=activeStudents();document.getElementById("selectedLine").textContent=`已选择 ${active.length} 人：${active.map(s=>s.name).join("、")}`;document.getElementById("nameGrid").innerHTML=students.map(s=>`<button class="nameBtn ${s.active?'active':''} ${isSleeping(s)?'sleep':''}" onclick="toggle('${s.id}')">${esc(s.name)}</button>`).join("");save()}
+function renderBattle(){const active=activeStudents(),alive=aliveStudents(),attacker=currentAttacker();document.getElementById("attackerText").textContent=attacker?`轮到：${attacker.name} 点牙`:"本轮结束";document.getElementById("statSelected").textContent=active.length;document.getElementById("statAlive").textContent=alive.length;document.getElementById("statSleep").textContent=active.filter(isSleeping).length;document.getElementById("statTeeth").textContent=active.reduce((a,b)=>a+b.teeth.filter(t=>!t.gone).length,0);document.getElementById("battleEmpty").style.display=active.length?"none":"block";const grid=document.getElementById("battleGrid");grid.className="grid"+(active.length===1?" one":active.length<=4?" few":"");grid.innerHTML=active.map(s=>card(s,attacker&&attacker.id===s.id)).join("");save()}
+function card(s,isAttacker){
+  const teeth=s.teeth.map((t,i)=>`<button class="tooth ${t.gone?'gone':''} ${t.id===addedToothId?'new':''}" onclick="clickTooth('${s.id}',${i})" title="点击牙齿"></button>`).join("");
+  const pop=s.lastPop?`<div class="pop show ${s.lastPop}">${s.lastPop==="safe"?"SAFE!":s.lastPop==="danger"?"BITE!":s.lastPop==="gold"?"GOLD!":"+1 TOOTH!"}</div>`:"";
+  return `<div class="card ${isSleeping(s)?'sleeping':''} ${isAttacker?'attacker':''}"><div class="cardName"><span>${esc(s.name)}</span><span class="badge">🦷 ${s.teeth.filter(t=>!t.gone).length}/${s.teeth.length}</span></div><div class="crocBox"><div class="croc"><div class="head" style="--c:${s.color}"><div class="eye l"></div><div class="eye r"></div><div class="nose l"></div><div class="nose r"></div><div class="snout"></div><div class="mouth">${teeth}</div></div></div><div class="sleepLabel">Sleep Mode</div>${pop}</div><div class="actions"><button class="smallBtn plus" onclick="fix('${s.id}')">补一颗牙</button><button class="smallBtn reset" onclick="resetCroc('${s.id}')">重置鳄鱼</button><button class="smallBtn" onclick="toggle('${s.id}')">退出</button></div></div>`;
+}
+function esc(str){return String(str).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"}[m]))}
+load();render();
+</script>
+</body>
+</html>
