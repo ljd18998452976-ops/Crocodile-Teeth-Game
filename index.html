@@ -37,11 +37,11 @@
     <div><div class="label">危险牙数量</div><select id="dangerCount"><option value="1">1 颗</option><option value="2" selected>2 颗</option><option value="3">3 颗</option></select></div>
     <div><div class="label">金牙数量</div><select id="goldCount"><option value="0">不要金牙</option><option value="1" selected>1 颗</option><option value="2">2 颗</option></select></div>
   </section>
-  <section class="quickBar"><div class="tip">普通牙：对方掉 1 颗｜危险牙：自己掉 1 颗｜金牙：自己补回 1 颗被点掉的牙</div><button class="btn main" onclick="startBattle()">进入PK页面</button></section>
+  <section class="quickBar"><div class="tip">普通牙：对方掉 1 颗｜危险牙：自己掉 1 颗｜金牙：自己补牙｜不可连续攻击同一目标</div><button class="btn main" onclick="startBattle()">进入PK页面</button></section>
 </div>
 <div id="battleScreen" class="battle">
   <div class="battleTop"><div class="battleTitle">🐊 Crocodile Teeth Battle｜PK中</div><div class="battleBtns"><button class="btn gold" onclick="newRound()">重置本轮</button><button class="btn blue" onclick="window.print()">打印鳄鱼卡</button><button class="btn" onclick="backSelect()">返回选人</button></div></div>
-  <div class="attackerBar"><div><div id="attackerText" class="attackerText">轮到：-- 点牙</div><div class="attackerSub">点击对手鳄鱼的一颗牙。金牙会让自己的牙齿直接补回来。</div></div><button class="skipBtn" onclick="nextAttacker()">跳过 / 换下一个</button></div>
+  <div class="attackerBar"><div><div id="attackerText" class="attackerText">轮到：-- 点牙</div><div class="attackerSub">点击对手鳄鱼的一颗牙。同一攻击者不能连续攻打同一目标。</div></div><button class="skipBtn" onclick="nextAttacker()">跳过 / 换下一个</button></div>
   <div class="stats"><div class="stat"><b id="statSelected">0</b><span>本轮PK</span></div><div class="stat"><b id="statAlive">0</b><span>还活着</span></div><div class="stat"><b id="statSleep">0</b><span>Sleep Mode</span></div><div class="stat"><b id="statTeeth">0</b><span>剩余牙齿</span></div></div>
   <div id="battleGrid" class="grid"></div><div id="battleEmpty" class="empty">还没有选择本轮PK的小朋友，请返回选人。</div>
 </div>
@@ -50,8 +50,8 @@
 const defaultNames=["Rocket","Cassie","Rachel","Bobo","Hannah","Cici","Joe","Leon","Sylvia","Gorman","Ryan","Aaron","Annie","Yuki","Linna","Helen","Ken","Charlie","Via","Eva","Zoey"];
 const colors=["#5fd57c","#6bd7f5","#ffb3c7","#bda2ff","#ffd166","#8be36f","#ff9f7a","#a0c4ff","#f4a261","#b8f2e6","#caffbf","#98f5c7"];
 let students=[],attackerIndex=0,addedToothId=null;
-function makeStudent(name,i,active=false){return{id:Math.random().toString(36).slice(2,9),name,active,color:colors[i%colors.length],teeth:[],lastPop:""}}
-function load(){try{students=JSON.parse(localStorage.getItem("crocodileTeethBattle_fixedAdd_v3")||"[]")}catch(e){students=[]}if(!students.length)students=defaultNames.map((n,i)=>makeStudent(n,i,i<8));students.forEach((s,i)=>{if(!s.color)s.color=colors[i%colors.length];if(!Array.isArray(s.teeth))s.teeth=[];if(typeof s.lastPop==="undefined")s.lastPop="";s.teeth.forEach(t=>{if(typeof t.id==="undefined")t.id=Math.random().toString(36).slice(2,9)})})}
+function makeStudent(name,i,active=false){return{id:Math.random().toString(36).slice(2,9),name,active,color:colors[i%colors.length],teeth:[],lastPop:"",lastTargetId:null}}
+function load(){try{students=JSON.parse(localStorage.getItem("crocodileTeethBattle_fixedAdd_v3")||"[]")}catch(e){students=[]}if(!students.length)students=defaultNames.map((n,i)=>makeStudent(n,i,i<8));students.forEach((s,i)=>{if(!s.color)s.color=colors[i%colors.length];if(!Array.isArray(s.teeth))s.teeth=[];if(typeof s.lastPop==="undefined")s.lastPop="";if(typeof s.lastTargetId==="undefined")s.lastTargetId=null;s.teeth.forEach(t=>{if(typeof t.id==="undefined")t.id=Math.random().toString(36).slice(2,9)})})}
 function save(){localStorage.setItem("crocodileTeethBattle_fixedAdd_v3",JSON.stringify(students))}
 function toast(msg){const t=document.getElementById("toast");t.textContent=msg;t.classList.add("show");clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>t.classList.remove("show"),1700)}
 function activeStudents(){return students.filter(s=>s.active)}
@@ -68,7 +68,7 @@ function makeTeeth(){const total=+document.getElementById("teethCount").value;le
 function prepareRound(force=false){activeStudents().forEach(s=>{if(force||!s.teeth.length){s.teeth=makeTeeth();s.lastPop=""}})}
 function startBattle(){if(!activeStudents().length){alert("先点选本轮参加PK的小朋友");return}prepareRound(false);document.getElementById("selectScreen").classList.add("hide");document.getElementById("battleScreen").classList.add("show");attackerIndex=0;renderBattle()}
 function backSelect(){document.getElementById("battleScreen").classList.remove("show");document.getElementById("selectScreen").classList.remove("hide");render()}
-function newRound(){if(confirm("重置本轮会重新洗危险牙和金牙，确定吗？")){prepareRound(true);attackerIndex=0;renderBattle();render()}}
+function newRound(){if(confirm("重置本轮会重新洗危险牙和金牙，确定吗？")){prepareRound(true);students.forEach(s=>s.lastTargetId=null);attackerIndex=0;renderBattle();render()}}
 function nextAttacker(){const pool=aliveStudents();if(pool.length<=1){toast("暂时没有下一个点牙的人");return}attackerIndex=(attackerIndex+1)%pool.length;renderBattle()}
 function nextAttackerSilent(){const pool=aliveStudents();if(pool.length>1)attackerIndex=(attackerIndex+1)%pool.length}
 function removeOneOwnTooth(s){const visible=s.teeth.map((t,i)=>!t.gone?i:-1).filter(i=>i>=0);if(!visible.length)return false;const idx=visible[Math.floor(Math.random()*visible.length)];s.teeth[idx].gone=true;return true}
@@ -88,8 +88,10 @@ function addOneOwnTooth(s){
 function clickTooth(targetId,idx){
   const target=students.find(s=>s.id===targetId),attacker=currentAttacker();if(!target||!attacker)return;
   if(target.id===attacker.id){toast("不能点自己的鳄鱼牙齿");return}
+  if(attacker.lastTargetId===target.id){toast(attacker.name+" 不能连续攻打 "+target.name+"，请换一个目标");return}
   if(isSleeping(target)){toast(target.name+" 的鳄鱼已经 Sleep Mode");return}
   const tooth=target.teeth[idx];if(!tooth||tooth.gone)return;
+  attacker.lastTargetId=target.id;
   tooth.gone=true;target.lastPop=tooth.type;attacker.lastPop="";
   if(tooth.type==="safe"){toast("SAFE! "+target.name+" 掉 1 颗牙");nextAttackerSilent()}
   else if(tooth.type==="danger"){const ok=removeOneOwnTooth(attacker);toast("BITE! "+attacker.name+(ok?" 自己掉 1 颗牙":" 已经没牙了"));nextAttackerSilent()}
